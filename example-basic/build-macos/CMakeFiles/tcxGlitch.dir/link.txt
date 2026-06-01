@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtcxGlitch.a CMakeFiles/tcxGlitch.dir/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/src/tcxGlitch.cpp.o
+/usr/bin/ranlib libtcxGlitch.a

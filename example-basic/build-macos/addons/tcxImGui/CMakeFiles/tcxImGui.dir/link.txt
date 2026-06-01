@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtcxImGui.a CMakeFiles/tcxImGui.dir/src/platform/imgui_impl_mac.mm.o
+/usr/bin/ranlib libtcxImGui.a

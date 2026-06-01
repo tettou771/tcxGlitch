@@ -42,13 +42,19 @@ uint32_t readBE32(const vector<uint8_t>& b, size_t i) {
 void fillBlack(Image& out, int w, int h) {
     w = max(w, 1);
     h = max(h, 1);
-    out.allocate(w, h, 4);
+    // Reuse the existing GPU texture when the size is unchanged; reallocating a
+    // sg_image every frame and sampling it within the same already-open render
+    // pass is unreliable on Metal.
+    if (out.getWidth() != w || out.getHeight() != h) out.allocate(w, h, 4);
     unsigned char* d = out.getPixelsData();
     const size_t n = (size_t)w * h * 4;
     for (size_t i = 0; i < n; i += 4) {
         d[i] = d[i + 1] = d[i + 2] = 0;
         d[i + 3] = 255;
     }
+    // We wrote straight into the pixel buffer, so flag it dirty — update() only
+    // re-uploads to the GPU texture when the Image is marked dirty.
+    out.setDirty();
     out.update();
 }
 
@@ -78,8 +84,12 @@ bool Glitch::process(const Pixels& srcPixels, Image& out) {
 
     const int dw = decoded.getWidth();
     const int dh = decoded.getHeight();
-    out.allocate(dw, dh, 4);
+    // Allocate only on a size change (see fillBlack note); otherwise just
+    // refresh the pixels of the existing texture.
+    if (out.getWidth() != dw || out.getHeight() != dh) out.allocate(dw, dh, 4);
     memcpy(out.getPixelsData(), decoded.getData(), (size_t)dw * dh * 4);
+    // Flag dirty so update() actually re-uploads the buffer we just wrote.
+    out.setDirty();
     out.update();
     return true;
 }
@@ -159,7 +169,13 @@ void JpegGlitch::corrupt(vector<uint8_t>& b) {
     mt19937 rng(seed_);
     uniform_int_distribution<size_t> pos(start, end - 1);
     uniform_int_distribution<int> val(0x00, 0xFE); // never write 0xFF
-    const size_t count = (size_t)(amount_ * (double)(end - start));
+
+    // stb's JPEG decoder is strict: it bails on the first invalid Huffman code,
+    // so the usable window is small. Empirically (see the probe in the repo
+    // history) the scan body tolerates corruption up to roughly 1% before it
+    // mostly fails to decode. Map amount (0-1 intensity) into that window so
+    // the whole slider stays useful; amount=1 is the near-destruction edge.
+    const size_t count = (size_t)(amount_ * 0.012 * (double)(end - start));
 
     for (size_t k = 0; k < count; ++k) {
         size_t i = pos(rng);
@@ -196,7 +212,10 @@ void BmpGlitch::corrupt(vector<uint8_t>& b) {
     mt19937 rng(seed_);
     uniform_int_distribution<size_t> pos(start, end - 1);
     uniform_int_distribution<int> val(0, 255);
-    const size_t count = (size_t)(amount_ * (double)(end - start));
+    // BMP is uncompressed, so it always decodes — every corrupted byte is just
+    // a pixel channel. We can afford a much wider window than JPEG; amount=1
+    // turns ~10% of the pixel data into colour snow.
+    const size_t count = (size_t)(amount_ * 0.10 * (double)(end - start));
 
     for (size_t k = 0; k < count; ++k) {
         b[pos(rng)] = (uint8_t)val(rng);
@@ -239,7 +258,10 @@ void PngGlitch::corrupt(vector<uint8_t>& b) {
     mt19937 rng(seed_);
     uniform_int_distribution<size_t> pos(start, end - 1);
     uniform_int_distribution<int> val(0, 255);
-    size_t count = (size_t)(amount_ * (double)(end - start));
+    // PNG's IDAT is a zlib/DEFLATE stream: almost any change makes inflate fail,
+    // so this codec collapses to black most of the time (by design — the wild
+    // one). The scale is kept small; even a single hit is usually fatal.
+    size_t count = (size_t)(amount_ * 0.02 * (double)(end - start));
     if (count < 1 && amount_ > 0.0f) count = 1;
 
     for (size_t k = 0; k < count; ++k) {

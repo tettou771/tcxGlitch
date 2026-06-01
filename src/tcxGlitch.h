@@ -81,7 +81,9 @@ private:
 // -----------------------------------------------------------------------------
 // JpegGlitch — classic DCT-block databending. The signature blocky smears.
 //   quality : JPEG encode quality (1-100). Lower = bigger/chunkier blocks.
-//   amount  : fraction of the scan body bytes to disturb (0-1).
+//   amount  : glitch intensity (0-1). stb's JPEG decoder is strict, so this is
+//             mapped into the narrow window the scan body tolerates; amount~1
+//             is the near-destruction edge (frames may flip to black).
 // -----------------------------------------------------------------------------
 class JpegGlitch : public Glitch {
 public:
@@ -96,13 +98,13 @@ protected:
 
 private:
     int quality_ = 30;
-    float amount_ = 0.02f;
+    float amount_ = 0.2f;
 };
 
 // -----------------------------------------------------------------------------
-// BmpGlitch — uncompressed scanline corruption. Horizontal colored streaks /
-// channel shifts. Very direct: every corrupted byte is a pixel byte.
-//   amount : fraction of pixel-data bytes to randomize (0-1).
+// BmpGlitch — uncompressed scanline corruption. Colour snow / channel shifts.
+// Very direct: every corrupted byte is a pixel byte, and it always decodes.
+//   amount : glitch intensity (0-1); amount~1 randomizes ~10% of pixel bytes.
 // -----------------------------------------------------------------------------
 class BmpGlitch : public Glitch {
 public:
@@ -114,15 +116,15 @@ protected:
     void corrupt(std::vector<uint8_t>& bytes) override;
 
 private:
-    float amount_ = 0.01f;
+    float amount_ = 0.15f;
 };
 
 // -----------------------------------------------------------------------------
 // PngGlitch — the wild one. PNG is zlib-compressed with per-chunk CRCs, so
 // poking the IDAT stream usually makes the whole image collapse (-> black,
 // apply() returns false). Sometimes a few bytes survive and you get a glorious
-// half-decoded mess. Keep `amount` tiny.
-//   amount : fraction of IDAT bytes to randomize (0-1).
+// half-decoded mess.
+//   amount : glitch intensity (0-1). Mostly collapses to black regardless.
 // -----------------------------------------------------------------------------
 class PngGlitch : public Glitch {
 public:
@@ -134,7 +136,7 @@ protected:
     void corrupt(std::vector<uint8_t>& bytes) override;
 
 private:
-    float amount_ = 0.002f;
+    float amount_ = 0.3f;
 };
 
 } // namespace tcx

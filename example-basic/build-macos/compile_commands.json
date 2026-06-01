@@ -1,0 +1,152 @@
+[
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/example-basic/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/src -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -mmacosx-version-min=14.0 -o CMakeFiles/tcxGlitch.dir/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/src/tcxGlitch.cpp.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/src/tcxGlitch.cpp",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/src/tcxGlitch.cpp",
+  "output": "CMakeFiles/tcxGlitch.dir/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/src/tcxGlitch.cpp.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/example-basic/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -DTRUSSC_BUILD_DATE=\\\"2026-06-02\\\" -DTRUSSC_BUILD_DATETIME=\"\\\"2026-06-02 01:03:12\\\"\" -DTRUSSC_BUILD_DAY=2 -DTRUSSC_BUILD_HOUR=1 -DTRUSSC_BUILD_MINUTE=3 -DTRUSSC_BUILD_MONTH=6 -DTRUSSC_BUILD_SECOND=12 -DTRUSSC_BUILD_TIME=\\\"01:03:12\\\" -DTRUSSC_BUILD_UNIX=1780329792LL -DTRUSSC_BUILD_YEAR=2026 -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -I/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/src -I/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxImGui/src -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -mmacosx-version-min=14.0 -o CMakeFiles/example-basic.dir/src/main.cpp.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/example-basic/src/main.cpp",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/example-basic/src/main.cpp",
+  "output": "CMakeFiles/example-basic.dir/src/main.cpp.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/example-basic/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -DTRUSSC_BUILD_DATE=\\\"2026-06-02\\\" -DTRUSSC_BUILD_DATETIME=\"\\\"2026-06-02 01:03:12\\\"\" -DTRUSSC_BUILD_DAY=2 -DTRUSSC_BUILD_HOUR=1 -DTRUSSC_BUILD_MINUTE=3 -DTRUSSC_BUILD_MONTH=6 -DTRUSSC_BUILD_SECOND=12 -DTRUSSC_BUILD_TIME=\\\"01:03:12\\\" -DTRUSSC_BUILD_UNIX=1780329792LL -DTRUSSC_BUILD_YEAR=2026 -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -I/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/src -I/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxImGui/src -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -mmacosx-version-min=14.0 -o CMakeFiles/example-basic.dir/src/tcApp.cpp.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/example-basic/src/tcApp.cpp",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/example-basic/src/tcApp.cpp",
+  "output": "CMakeFiles/example-basic.dir/src/tcApp.cpp.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/include/impl/pugixml_impl.cpp.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/impl/pugixml_impl.cpp",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/impl/pugixml_impl.cpp",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/include/impl/pugixml_impl.cpp.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/include/impl/stb_impl.cpp.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/impl/stb_impl.cpp",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/impl/stb_impl.cpp",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/include/impl/stb_impl.cpp.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/include/tc/app/tcGlobal.cpp.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/app/tcGlobal.cpp",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/app/tcGlobal.cpp",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/include/tc/app/tcGlobal.cpp.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/include/tc/graphics/tcPixels.cpp.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/graphics/tcPixels.cpp",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/graphics/tcPixels.cpp",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/include/tc/graphics/tcPixels.cpp.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/include/tc/graphics/tcRenderContext.cpp.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/graphics/tcRenderContext.cpp",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/graphics/tcRenderContext.cpp",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/include/tc/graphics/tcRenderContext.cpp.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/include/tc/network/tcTcpClient.cpp.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/network/tcTcpClient.cpp",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/network/tcTcpClient.cpp",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/include/tc/network/tcTcpClient.cpp.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/include/tc/network/tcTcpServer.cpp.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/network/tcTcpServer.cpp",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/network/tcTcpServer.cpp",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/include/tc/network/tcTcpServer.cpp.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/include/tc/network/tcUdpSocket.cpp.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/network/tcUdpSocket.cpp",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/network/tcUdpSocket.cpp",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/include/tc/network/tcUdpSocket.cpp.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/include/tc/sound/tcAudio_impl.cpp.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/sound/tcAudio_impl.cpp",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/sound/tcAudio_impl.cpp",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/include/tc/sound/tcAudio_impl.cpp.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/include/tc/sound/tcSound_impl.cpp.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/sound/tcSound_impl.cpp",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/sound/tcSound_impl.cpp",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/include/tc/sound/tcSound_impl.cpp.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/include/tc/utils/tcCompress.cpp.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/utils/tcCompress.cpp",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/utils/tcCompress.cpp",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/include/tc/utils/tcCompress.cpp.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/cc -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -O2 -g -DNDEBUG -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/include/lz4/lz4.c.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/lz4/lz4.c",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/lz4/lz4.c",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/include/lz4/lz4.c.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -x objective-c++ -O2 -g -DNDEBUG -std=gnu++2a -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/platform/mac/sokol_impl.mm.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/sokol_impl.mm",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/sokol_impl.mm",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/platform/mac/sokol_impl.mm.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -x objective-c++ -O2 -g -DNDEBUG -std=gnu++2a -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/platform/mac/tcFbo_mac.mm.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcFbo_mac.mm",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcFbo_mac.mm",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/platform/mac/tcFbo_mac.mm.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -x objective-c++ -O2 -g -DNDEBUG -std=gnu++2a -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/platform/mac/tcFileDialog_mac.mm.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcFileDialog_mac.mm",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcFileDialog_mac.mm",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/platform/mac/tcFileDialog_mac.mm.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -x objective-c++ -O2 -g -DNDEBUG -std=gnu++2a -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/platform/mac/tcPixels_mac.mm.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcPixels_mac.mm",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcPixels_mac.mm",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/platform/mac/tcPixels_mac.mm.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -x objective-c++ -O2 -g -DNDEBUG -std=gnu++2a -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/platform/mac/tcPlatform_mac.mm.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcPlatform_mac.mm",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcPlatform_mac.mm",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/platform/mac/tcPlatform_mac.mm.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -x objective-c++ -O2 -g -DNDEBUG -std=gnu++2a -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/platform/mac/tcSound_mac.mm.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcSound_mac.mm",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcSound_mac.mm",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/platform/mac/tcSound_mac.mm.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -x objective-c++ -O2 -g -DNDEBUG -std=gnu++2a -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/platform/mac/tcSystemFont_mac.mm.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcSystemFont_mac.mm",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcSystemFont_mac.mm",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/platform/mac/tcSystemFont_mac.mm.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -x objective-c++ -O2 -g -DNDEBUG -std=gnu++2a -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/platform/mac/tcVideoGrabber_mac.mm.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcVideoGrabber_mac.mm",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcVideoGrabber_mac.mm",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/platform/mac/tcVideoGrabber_mac.mm.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -x objective-c++ -O2 -g -DNDEBUG -std=gnu++2a -arch arm64 -mmacosx-version-min=14.0 -fobjc-arc -o CMakeFiles/TrussC.dir/platform/mac/tcVideoPlayer_mac.mm.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcVideoPlayer_mac.mm",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/platform/mac/tcVideoPlayer_mac.mm",
+  "output": "/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir/platform/mac/tcVideoPlayer_mac.mm.o"
+},
+{
+  "directory": "/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/example-basic/build-macos/addons/tcxImGui",
+  "command": "/usr/bin/c++ -DSOKOL_METAL -I/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxImGui/src -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include -I/Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/sokol -x objective-c++ -O2 -g -DNDEBUG -std=gnu++2a -arch arm64 -mmacosx-version-min=14.0 -o CMakeFiles/tcxImGui.dir/src/platform/imgui_impl_mac.mm.o -c /Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxImGui/src/platform/imgui_impl_mac.mm",
+  "file": "/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxImGui/src/platform/imgui_impl_mac.mm",
+  "output": "addons/tcxImGui/CMakeFiles/tcxImGui.dir/src/platform/imgui_impl_mac.mm.o"
+}
+]
