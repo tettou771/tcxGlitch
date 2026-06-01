@@ -36,7 +36,7 @@ private:
     BmpGlitch bmp_;
     PngGlitch png_;
 
-    int codecIndex_ = 0;         // 0=JPEG, 1=BMP, 2=PNG
+    int codecIndex_ = 2;         // 0=JPEG, 1=BMP, 2=PNG
 
     int jpegQuality_ = 30;
     float jpegAmount_ = 0.5f;

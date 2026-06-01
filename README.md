@@ -31,9 +31,9 @@ concrete codecs differ only in how they encode and how they corrupt:
 
 | Class | Knobs | Character |
 |-------|-------|-----------|
-| `JpegGlitch` | `setQuality(1-100)`, `setAmount(0-1)` | DCT-block smears (the classic look) |
-| `BmpGlitch` | `setAmount(0-1)` | horizontal scanline / colour streaks |
-| `PngGlitch` | `setAmount(0-1)` | wild — zlib usually collapses to black |
+| `JpegGlitch` | `setQuality(1-100)`, `setAmount(0-1)` | DCT-block smears (the classic look). `amount` is log-scaled. |
+| `BmpGlitch` | `setAmount(0-1)` | colour speckles + bit flips + byte-drop tears (channel shifts) |
+| `PngGlitch` | `setAmount(0-1)` | scanline filter-byte scramble → rows smear/bleed downward. Always decodes, but heavier (per-frame zlib). |
 
 Common to all:
 

@@ -5,10 +5,19 @@
 // of the *_to_func encoders so we can capture the encoded bytes in memory
 // instead of writing a file — the implementation is linked from core.
 #include "stb/stb_image_write.h"
+#include "stb/stb_image.h" // stbi_zlib_decode_malloc (declared here, linked from core)
 
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
 #include <random>
+
+// zlib deflate helper from stb_image_write — only declared inside its
+// implementation block, so forward-declare it (it's extern "C" under STBIWDEF;
+// the definition is compiled into TrussC core). Mirrors how core forward-
+// declares stbi_write_png_to_mem.
+extern "C" unsigned char* stbi_zlib_compress(unsigned char* data, int data_len,
+                                             int* out_len, int quality);
 
 using namespace std;
 using namespace tc;
@@ -33,10 +42,15 @@ uint32_t readLE32(const vector<uint8_t>& b, size_t i) {
            ((uint32_t)b[i + 2] << 16) | ((uint32_t)b[i + 3] << 24);
 }
 
-// Read a 32-bit big-endian value (PNG chunk lengths).
-uint32_t readBE32(const vector<uint8_t>& b, size_t i) {
-    return ((uint32_t)b[i] << 24) | ((uint32_t)b[i + 1] << 16) |
-           ((uint32_t)b[i + 2] << 8) | (uint32_t)b[i + 3];
+// CRC-32 (PNG / zlib polynomial) over a byte range.
+uint32_t crc32Range(const uint8_t* p, size_t len) {
+    uint32_t crc = 0xFFFFFFFFu;
+    for (size_t i = 0; i < len; ++i) {
+        crc ^= p[i];
+        for (int k = 0; k < 8; ++k)
+            crc = (crc >> 1) ^ (0xEDB88320u & (uint32_t)(-(int)(crc & 1)));
+    }
+    return crc ^ 0xFFFFFFFFu;
 }
 
 // Fill an Image with solid black (opaque) at the given size and push to GPU.
@@ -249,48 +263,122 @@ void BmpGlitch::corrupt(vector<uint8_t>& b) {
 // -----------------------------------------------------------------------------
 // PngGlitch
 // -----------------------------------------------------------------------------
+// Authentic PNG filter-databending. PNG stores each row as [filter-type byte]
+// [filtered pixels]; the decoder reverses that filter per row. We build the raw
+// scanlines ourselves (filter 0 = None), scramble the filter byte on a fraction
+// of rows, then compress ONCE — so the decoder un-filters those rows the wrong
+// way and they smear/bleed downward. Always decodes (0..4 are valid filters).
+//
+// encode() builds the raw scanlines; corrupt() scrambles + compresses + wraps a
+// PNG. Splitting it this way keeps a single zlib compress per frame (plus the
+// base class's single decode), instead of round-tripping a stb-compressed PNG.
 bool PngGlitch::encode(const Pixels& src, vector<uint8_t>& bytes) {
-    bytes.clear();
-    const int stride = src.getWidth() * src.getChannels();
-    int ok = stbi_write_png_to_func(appendToVector, &bytes,
-                                    src.getWidth(), src.getHeight(),
-                                    src.getChannels(), src.getData(), stride);
-    return ok != 0 && !bytes.empty();
+    width_ = src.getWidth();
+    height_ = src.getHeight();
+    channels_ = src.getChannels();
+    if (width_ <= 0 || height_ <= 0 || channels_ <= 0) return false;
+
+    const size_t stride = (size_t)width_ * channels_;
+    const size_t rowSize = stride + 1; // + filter-type byte
+    const int bpp = channels_;
+    raw_.assign(rowSize * (size_t)height_, 0);
+    const unsigned char* img = src.getData();
+
+    auto paeth = [](int a, int b, int c) {
+        int p = a + b - c, pa = abs(p - a), pb = abs(p - b), pc = abs(p - c);
+        return (pa <= pb && pa <= pc) ? a : (pb <= pc) ? b : c;
+    };
+
+    // Pick the best PNG filter per row (stb's min-sum-of-absolute-residuals
+    // heuristic) so the stored rows are real deltas. This is what makes the
+    // later filter-byte scramble diverge dramatically (mismatching a real filter
+    // on delta data), rather than the milder result of filtering everything with
+    // None. Pure CPU — no extra zlib pass.
+    vector<uint8_t> cand(stride), bestRow(stride);
+    for (int y = 0; y < height_; ++y) {
+        const unsigned char* row = img + (size_t)y * stride;
+        const unsigned char* up = (y > 0) ? img + (size_t)(y - 1) * stride : nullptr;
+        int best = 0;
+        long bestSum = -1;
+        for (int f = 0; f < 5; ++f) {
+            long sum = 0;
+            for (size_t x = 0; x < stride; ++x) {
+                int a = (x >= (size_t)bpp) ? row[x - bpp] : 0;
+                int b = up ? up[x] : 0;
+                int c = (up && x >= (size_t)bpp) ? up[x - bpp] : 0;
+                int pred = f == 0 ? 0 : f == 1 ? a : f == 2 ? b
+                         : f == 3 ? ((a + b) >> 1) : paeth(a, b, c);
+                uint8_t v = (uint8_t)(row[x] - pred);
+                cand[x] = v;
+                sum += (signed char)v < 0 ? -(signed char)v : (signed char)v;
+            }
+            if (bestSum < 0 || sum < bestSum) { bestSum = sum; best = f; bestRow = cand; }
+        }
+        raw_[(size_t)y * rowSize] = (uint8_t)best;
+        memcpy(&raw_[(size_t)y * rowSize + 1], bestRow.data(), stride);
+    }
+    bytes.assign(1, 0); // placeholder; corrupt() produces the real PNG
+    return true;
 }
 
 void PngGlitch::corrupt(vector<uint8_t>& b) {
-    // 8-byte signature + at least one IHDR (25) + IEND (12).
-    if (b.size() < 8 + 25 + 12) return;
-
-    // Walk the chunk list to find the first IDAT's data region.
-    size_t start = 8;
-    for (size_t i = 8; i + 8 <= b.size();) {
-        uint32_t len = readBE32(b, i);
-        const uint8_t* type = &b[i + 4];
-        bool isIDAT = type[0] == 'I' && type[1] == 'D' &&
-                      type[2] == 'A' && type[3] == 'T';
-        if (isIDAT) {
-            start = i + 8; // skip length(4) + type(4) -> data starts here
-            break;
-        }
-        i += 8 + (size_t)len + 4; // length + type + data + crc
-    }
-    if (start + 4 >= b.size()) return;
-    const size_t end = b.size() - 12; // leave the trailing IEND chunk alone
-    if (end <= start) return;
+    if (raw_.empty() || width_ <= 0 || height_ <= 0) return;
+    const size_t rowSize = (size_t)width_ * channels_ + 1;
 
     mt19937 rng(seed_);
-    uniform_int_distribution<size_t> pos(start, end - 1);
-    uniform_int_distribution<int> val(0, 255);
-    // PNG's IDAT is a zlib/DEFLATE stream: almost any change makes inflate fail,
-    // so this codec collapses to black most of the time (by design — the wild
-    // one). The scale is kept small; even a single hit is usually fatal.
-    size_t count = (size_t)(amount_ * 0.02 * (double)(end - start));
-    if (count < 1 && amount_ > 0.0f) count = 1;
+    uniform_int_distribution<size_t> rowPick(0, (size_t)height_ - 1);
+    uniform_int_distribution<int> filt(0, 4); // valid PNG filter types
 
-    for (size_t k = 0; k < count; ++k) {
-        b[pos(rng)] = (uint8_t)val(rng);
+    // Scramble the filter byte on a fraction of rows -> smear cascade.
+    const size_t rows = (size_t)(amount_ * (double)height_);
+    for (size_t k = 0; k < rows; ++k) {
+        raw_[rowPick(rng) * rowSize] = (uint8_t)filt(rng);
     }
+    // A light sprinkle of residual-byte hits adds colour streaks (still decodes).
+    const size_t sprinkle = (size_t)(amount_ * 0.001 * (double)raw_.size());
+    if (!raw_.empty()) {
+        uniform_int_distribution<size_t> anyByte(0, raw_.size() - 1);
+        uniform_int_distribution<int> val(0, 255);
+        for (size_t k = 0; k < sprinkle; ++k) raw_[anyByte(rng)] = (uint8_t)val(rng);
+    }
+
+    // Compress once (quality 5 = stb's fastest) — ratio is irrelevant since we
+    // decode it again immediately.
+    int zlen = 0;
+    unsigned char* z = stbi_zlib_compress(raw_.data(), (int)raw_.size(), &zlen, 5);
+    if (!z || zlen <= 0) { if (z) free(z); return; }
+
+    // Assemble the PNG: signature + IHDR + IDAT + IEND, with valid CRCs.
+    vector<uint8_t> out;
+    out.reserve(8 + 25 + 12 + (size_t)zlen + 12);
+    static const uint8_t sig[8] = {0x89, 'P', 'N', 'G', 0x0D, 0x0A, 0x1A, 0x0A};
+    out.insert(out.end(), sig, sig + 8);
+
+    auto put32 = [&](uint32_t v) {
+        out.push_back((uint8_t)(v >> 24)); out.push_back((uint8_t)(v >> 16));
+        out.push_back((uint8_t)(v >> 8));  out.push_back((uint8_t)v);
+    };
+    auto chunk = [&](const char* type, const uint8_t* data, size_t len) {
+        put32((uint32_t)len);
+        size_t typePos = out.size();
+        out.insert(out.end(), type, type + 4);
+        if (len) out.insert(out.end(), data, data + len);
+        put32(crc32Range(&out[typePos], 4 + len));
+    };
+
+    uint8_t ihdr[13] = {0};
+    ihdr[0] = (uint8_t)(width_ >> 24);  ihdr[1] = (uint8_t)(width_ >> 16);
+    ihdr[2] = (uint8_t)(width_ >> 8);   ihdr[3] = (uint8_t)width_;
+    ihdr[4] = (uint8_t)(height_ >> 24); ihdr[5] = (uint8_t)(height_ >> 16);
+    ihdr[6] = (uint8_t)(height_ >> 8);  ihdr[7] = (uint8_t)height_;
+    ihdr[8] = 8; // bit depth
+    ihdr[9] = (channels_ == 1 ? 0 : channels_ == 2 ? 4 : channels_ == 3 ? 2 : 6);
+    chunk("IHDR", ihdr, 13);
+    chunk("IDAT", z, (size_t)zlen);
+    chunk("IEND", nullptr, 0);
+    free(z);
+
+    b.swap(out);
 }
 
 } // namespace tcx

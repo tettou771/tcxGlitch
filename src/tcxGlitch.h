@@ -123,11 +123,12 @@ private:
 };
 
 // -----------------------------------------------------------------------------
-// PngGlitch — the wild one. PNG is zlib-compressed with per-chunk CRCs, so
-// poking the IDAT stream usually makes the whole image collapse (-> black,
-// apply() returns false). Sometimes a few bytes survive and you get a glorious
-// half-decoded mess.
-//   amount : glitch intensity (0-1). Mostly collapses to black regardless.
+// PngGlitch — filter-byte databending. PNG stores each row with a "filter type"
+// byte (0..4) that says how the row was delta-encoded. This inflates the IDAT,
+// rewrites the filter byte on a fraction of rows, then re-deflates — so the
+// decoder un-filters those rows the WRONG way and they smear/bleed downward.
+// The signature soft, drippy PNG glitch; unlike JPEG it always decodes.
+//   amount : glitch intensity (0-1) = fraction of rows whose filter is scrambled.
 // -----------------------------------------------------------------------------
 class PngGlitch : public Glitch {
 public:
@@ -140,6 +141,11 @@ protected:
 
 private:
     float amount_ = 0.3f;
+    // Scratch shared between encode() (builds raw PNG scanlines) and corrupt()
+    // (scrambles filter bytes, then compresses once). Avoids round-tripping
+    // through a fully stb-compressed PNG, which was ~4 zlib passes per frame.
+    std::vector<uint8_t> raw_;
+    int width_ = 0, height_ = 0, channels_ = 0;
 };
 
 } // namespace tcx
