@@ -1,0 +1,7 @@
+{
+  "description": "Databending-style glitch effects (JPEG/BMP/PNG) for Fbo/Texture/Image",
+  "author": "tettou771",
+  "license": "MIT",
+  "category": "graphics",
+  "keywords": ["glitch", "databend", "image", "vj", "effect"]
+}
