@@ -6,6 +6,7 @@
 // instead of writing a file — the implementation is linked from core.
 #include "stb/stb_image_write.h"
 
+#include <cmath>
 #include <cstring>
 #include <random>
 
@@ -171,11 +172,14 @@ void JpegGlitch::corrupt(vector<uint8_t>& b) {
     uniform_int_distribution<int> val(0x00, 0xFE); // never write 0xFF
 
     // stb's JPEG decoder is strict: it bails on the first invalid Huffman code,
-    // so the usable window is small. Empirically (see the probe in the repo
-    // history) the scan body tolerates corruption up to roughly 1% before it
-    // mostly fails to decode. Map amount (0-1 intensity) into that window so
-    // the whole slider stays useful; amount=1 is the near-destruction edge.
-    const size_t count = (size_t)(amount_ * 0.012 * (double)(end - start));
+    // so the usable window is small (~1% of the scan body before it mostly
+    // fails to decode). Map amount geometrically (log scale) into that window:
+    // count = maxCount^amount. Equal slider steps give roughly equal perceptual
+    // change, with fine control in the subtle low end; amount=1 is the
+    // near-destruction edge.
+    const double maxCount = 0.012 * (double)(end - start);
+    size_t count = 0;
+    if (amount_ > 0.0f && maxCount > 1.0) count = (size_t)pow(maxCount, (double)amount_);
 
     for (size_t k = 0; k < count; ++k) {
         size_t i = pos(rng);
@@ -208,17 +212,37 @@ void BmpGlitch::corrupt(vector<uint8_t>& b) {
     const size_t start = off;
     const size_t end = b.size();
     if (start >= end) return;
+    const double range = (double)(end - start);
 
     mt19937 rng(seed_);
     uniform_int_distribution<size_t> pos(start, end - 1);
-    uniform_int_distribution<int> val(0, 255);
-    // BMP is uncompressed, so it always decodes — every corrupted byte is just
-    // a pixel channel. We can afford a much wider window than JPEG; amount=1
-    // turns ~10% of the pixel data into colour snow.
-    const size_t count = (size_t)(amount_ * 0.10 * (double)(end - start));
+    uniform_int_distribution<int> byteVal(0, 255);
+    uniform_int_distribution<int> bitSel(0, 7);
+    uniform_int_distribution<int> replaceOrFlip(0, 1);
 
+    // BMP is uncompressed, so it always decodes — every byte is a pixel channel.
+    // We mix three operators for a richer look than plain snow:
+
+    // (1) Byte drops (data loss). Delete a short run and shift the tail up; the
+    //     row alignment cascades below the cut into a diagonal tear / channel
+    //     shift — the classic "missing data" databend. Bounded, since each is an
+    //     O(n) memmove. (Byte-level = clean shift; for a harsher full scramble a
+    //     bit-level drop would shift the whole bitstream — not used here.)
+    const size_t cuts = (size_t)(amount_ * 24.0);
+    uniform_int_distribution<int> dropLen(1, 6);
+    for (size_t k = 0; k < cuts; ++k) {
+        size_t i = pos(rng);
+        size_t d = (size_t)dropLen(rng);
+        if (i + d < end) memmove(&b[i], &b[i + d], end - i - d);
+    }
+
+    // (2)+(3) Scattered byte replaces (colour speckles) and bit flips (subtle
+    //     per-channel noise). Cheap, in-place.
+    const size_t count = (size_t)(amount_ * 0.06 * range);
     for (size_t k = 0; k < count; ++k) {
-        b[pos(rng)] = (uint8_t)val(rng);
+        size_t i = pos(rng);
+        if (replaceOrFlip(rng) == 0) b[i] = (uint8_t)byteVal(rng);
+        else b[i] ^= (uint8_t)(1 << bitSel(rng));
     }
 }
 

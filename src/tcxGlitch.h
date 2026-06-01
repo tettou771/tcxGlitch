@@ -81,9 +81,10 @@ private:
 // -----------------------------------------------------------------------------
 // JpegGlitch — classic DCT-block databending. The signature blocky smears.
 //   quality : JPEG encode quality (1-100). Lower = bigger/chunkier blocks.
-//   amount  : glitch intensity (0-1). stb's JPEG decoder is strict, so this is
-//             mapped into the narrow window the scan body tolerates; amount~1
-//             is the near-destruction edge (frames may flip to black).
+//   amount  : glitch intensity (0-1), mapped on a geometric/log scale so the
+//             subtle low end has fine control. stb's JPEG decoder is strict, so
+//             the window is narrow; amount~1 is the near-destruction edge
+//             (frames may flip to black).
 // -----------------------------------------------------------------------------
 class JpegGlitch : public Glitch {
 public:
@@ -98,13 +99,15 @@ protected:
 
 private:
     int quality_ = 30;
-    float amount_ = 0.2f;
+    float amount_ = 0.5f;
 };
 
 // -----------------------------------------------------------------------------
-// BmpGlitch — uncompressed scanline corruption. Colour snow / channel shifts.
-// Very direct: every corrupted byte is a pixel byte, and it always decodes.
-//   amount : glitch intensity (0-1); amount~1 randomizes ~10% of pixel bytes.
+// BmpGlitch — uncompressed databending. Always decodes. Mixes three operators:
+// byte replacement (colour speckles), bit flips (subtle channel noise), and
+// byte drops (delete + shift the tail, cascading into diagonal tears / channel
+// shifts — the "missing data" look).
+//   amount : glitch intensity (0-1).
 // -----------------------------------------------------------------------------
 class BmpGlitch : public Glitch {
 public:

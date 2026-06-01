@@ -39,7 +39,7 @@ private:
     int codecIndex_ = 0;         // 0=JPEG, 1=BMP, 2=PNG
 
     int jpegQuality_ = 30;
-    float jpegAmount_ = 0.2f;
+    float jpegAmount_ = 0.5f;
     float bmpAmount_ = 0.15f;
     float pngAmount_ = 0.3f;
 
