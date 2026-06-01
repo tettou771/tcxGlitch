@@ -13,8 +13,8 @@ using namespace tcx;
 //   - tweak that codec's parameters
 //   - toggle "Random seed" to animate, or scrub the seed by hand when frozen
 //
-// During development the source is a procedurally drawn test pattern (no camera
-// permission needed). The final version swaps that for a VideoGrabber.
+// The source is the webcam (VJ-style). When no camera is available it falls
+// back to an animated test pattern, so the example still runs anywhere.
 class tcApp : public App {
 public:
     void setup() override;
@@ -22,8 +22,12 @@ public:
     void cleanup() override;
 
 private:
-    void drawTestPattern();      // render the animated source into srcFbo_
+    void drawSource();           // render the source (camera or pattern) into srcFbo_
+    void drawTestPattern();      // animated fallback pattern
     Glitch* currentGlitch();     // push GUI params into the selected codec
+
+    VideoGrabber grabber_;       // camera source; falls back to the test pattern
+    bool useCamera_ = false;
 
     Fbo srcFbo_;                 // source image to be glitched
     Image out_;                  // glitched result

@@ -1,9 +1,0 @@
-# Hashes of file build rules.
-4cf7d3613df5fdc2142e21e9b0da23c8 /Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC_shaders
-ebc61c016ee00fe7e093bd07e4308f4c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/gpu/shaders/fboMipDownsample.glsl.h
-0aea1f23d40e995d62abd4ab7b7817dc /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/gpu/shaders/iblBake.glsl.h
-3125a4625753833b2a1c6c1fdbe65acb /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/gpu/shaders/lut.glsl.h
-4fe38c8a7d182acc6401fa83bc12c89c /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/gpu/shaders/meshPbr.glsl.h
-1d345078c6b85344181b525eac2b5431 /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/gpu/shaders/shadowDepth.glsl.h
-4a4214ffd0953f55aa74df981810df3a /Users/toru/Nextcloud/Make/TrussC/TrussC/core/include/tc/gpu/shaders/videoNV12.glsl.h
-58c3391c6debbc474ee58c4922af9e5f CMakeFiles/_tc_hot_reload_check

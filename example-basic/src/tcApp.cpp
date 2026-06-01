@@ -4,6 +4,14 @@
 void tcApp::setup() {
     setWindowTitle("tcxGlitch — example-basic");
     srcFbo_.allocate(640, 480);
+
+    // Webcam source. If no camera / permission, we silently fall back to the
+    // animated test pattern so the example still runs.
+    if (!grabber_.listDevices().empty()) {
+        grabber_.setDeviceID(0);
+        useCamera_ = grabber_.setup(640, 480);
+    }
+
     imguiSetup();
     // Lets AI agents inspect/drive the GUI over MCP (TRUSSC_MCP=1). No-op
     // during a normal run.
@@ -13,18 +21,19 @@ void tcApp::setup() {
 void tcApp::draw() {
     clear(0.08f, 0.08f, 0.10f);
 
-    // 2) Render the animated source into the FBO.
-    drawTestPattern();
+    // 1) Render the source (camera or fallback pattern) into the FBO.
+    if (useCamera_) grabber_.update();
+    drawSource();
 
-    // 3) Decide the seed: animate it, or use the frozen hand-set value.
+    // 2) Decide the seed: animate it, or use the frozen hand-set value.
     if (randomSeed_) seed_ = frame_;
 
-    // 4) Glitch the FBO into out_.
+    // 3) Glitch the FBO into out_.
     Glitch* g = currentGlitch();
     g->setSeed((uint32_t)seed_);
     lastOk_ = g->apply(srcFbo_, out_);
 
-    // 5) Draw the glitched result, fit to the window.
+    // 4) Draw the glitched result, fit to the window.
     setColor(1, 1, 1);
     out_.getTexture().draw(0, 0, (float)getWindowWidth(), (float)getWindowHeight());
 
@@ -59,6 +68,7 @@ void tcApp::draw() {
     }
 
     ImGui::Separator();
+    ImGui::Text("source: %s", useCamera_ ? "camera" : "test pattern");
     if (!lastOk_) {
         ImGui::TextColored(ImVec4(1, 0.4f, 0.4f, 1), "decode failed -> black");
     } else {
@@ -74,6 +84,20 @@ void tcApp::draw() {
 
 void tcApp::cleanup() {
     imguiShutdown();
+}
+
+// Render whatever source we have into srcFbo_: the live camera when present,
+// otherwise the animated test pattern.
+void tcApp::drawSource() {
+    if (useCamera_ && grabber_.isInitialized()) {
+        srcFbo_.begin(0, 0, 0, 1);
+        setColor(1, 1, 1);
+        grabber_.getTexture().draw(0, 0, (float)srcFbo_.getWidth(),
+                                         (float)srcFbo_.getHeight());
+        srcFbo_.end();
+    } else {
+        drawTestPattern();
+    }
 }
 
 // Draw an animated, detail-rich test pattern so the glitch is easy to read.
