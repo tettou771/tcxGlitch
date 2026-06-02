@@ -1,11 +1,7 @@
 #include "BmpGlitch.h"
 
-// stb_image_write ships with TrussC core; we only need the *_to_func
-// declaration to capture the encoded BMP in memory.
-#include "stb/stb_image_write.h"
-
-#include <cstring>
-#include <random>
+// stbi_write_bmp_to_func (stb), std::mt19937, memmove — all reachable through
+// TrussC.h (included from Glitch.h).
 
 using namespace std;
 using namespace tc;

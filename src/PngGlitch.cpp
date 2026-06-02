@@ -1,20 +1,10 @@
 #include "PngGlitch.h"
 
-// stb_image_write / stb_image ship with TrussC core. We use:
-//   stbi_zlib_compress       (deflate, declared only inside the write impl)
-//   stbi_zlib_decode_malloc  (inflate, declared in stb_image.h)
-// Both link from core; stb_image ignores chunk CRCs, so our dummy/real CRCs are
-// fine either way.
-#include "stb/stb_image_write.h"
-#include "stb/stb_image.h"
-
-#include <cmath>
-#include <cstdlib>
-#include <cstring>
-#include <random>
-
-// Forward-declare the zlib deflate helper (extern "C" under STBIWDEF; defined in
-// core). Mirrors how core forward-declares stbi_write_png_to_mem.
+// stb's zlib helpers (bundled in TrussC core, reachable via TrussC.h):
+//   stbi_zlib_decode_malloc  inflate — declared in stb_image.h
+//   stbi_zlib_compress       deflate — only declared inside stb's impl block, so
+//                            we forward-declare it here (extern "C", linked from
+//                            core). stb_image ignores chunk CRCs.
 extern "C" unsigned char* stbi_zlib_compress(unsigned char* data, int data_len,
                                              int* out_len, int quality);
 

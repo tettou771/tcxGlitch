@@ -1,12 +1,7 @@
 #include "JpegGlitch.h"
 
-// stb_image_write ships with TrussC core (compiled there with
-// STB_IMAGE_WRITE_IMPLEMENTATION). We only need the *_to_func declaration to
-// capture the encoded bytes in memory; the implementation is linked from core.
-#include "stb/stb_image_write.h"
-
-#include <cmath>
-#include <random>
+// Everything we use here — stbi_write_jpg_to_func (stb, bundled in TrussC core),
+// std::mt19937, std::pow — comes in through TrussC.h, which Glitch.h includes.
 
 using namespace std;
 using namespace tc;
