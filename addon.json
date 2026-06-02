@@ -3,5 +3,6 @@
   "author": "tettou771",
   "license": "MIT",
   "category": "graphics",
+  "screenshot": "docs/preview.png",
   "keywords": ["glitch", "databend", "image", "vj", "effect"]
 }
