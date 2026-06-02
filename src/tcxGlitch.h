@@ -128,7 +128,8 @@ private:
 // rewrites the filter byte on a fraction of rows, then re-deflates — so the
 // decoder un-filters those rows the WRONG way and they smear/bleed downward.
 // The signature soft, drippy PNG glitch; unlike JPEG it always decodes.
-//   amount : glitch intensity (0-1) = fraction of rows whose filter is scrambled.
+//   amount : glitch intensity (0-1), log-scaled (rows scrambled = height^amount)
+//            so the subtle low end has fine control.
 // -----------------------------------------------------------------------------
 class PngGlitch : public Glitch {
 public:
@@ -140,7 +141,7 @@ protected:
     void corrupt(std::vector<uint8_t>& bytes) override;
 
 private:
-    float amount_ = 0.3f;
+    float amount_ = 0.6f;
     // Scratch shared between encode() (builds raw PNG scanlines) and corrupt()
     // (scrambles filter bytes, then compresses once). Avoids round-tripping
     // through a fully stb-compressed PNG, which was ~4 zlib passes per frame.

@@ -329,13 +329,18 @@ void PngGlitch::corrupt(vector<uint8_t>& b) {
     uniform_int_distribution<size_t> rowPick(0, (size_t)height_ - 1);
     uniform_int_distribution<int> filt(0, 4); // valid PNG filter types
 
-    // Scramble the filter byte on a fraction of rows -> smear cascade.
-    const size_t rows = (size_t)(amount_ * (double)height_);
+    // Scramble the filter byte on a fraction of rows -> smear cascade. Geometric
+    // (log-scale) mapping like JpegGlitch: rows = height^amount, so equal slider
+    // steps give roughly equal perceptual change with fine control at the subtle
+    // low end. amount=0 -> none; amount=1 -> every row.
+    const size_t rows = (amount_ <= 0.0f) ? 0 : (size_t)pow((double)height_, (double)amount_);
     for (size_t k = 0; k < rows; ++k) {
         raw_[rowPick(rng) * rowSize] = (uint8_t)filt(rng);
     }
-    // A light sprinkle of residual-byte hits adds colour streaks (still decodes).
-    const size_t sprinkle = (size_t)(amount_ * 0.001 * (double)raw_.size());
+    // A light sprinkle of residual-byte hits adds colour streaks (still decodes),
+    // scaled by the same log-mapped intensity.
+    const double frac = (double)rows / (double)height_;
+    const size_t sprinkle = (size_t)(frac * 0.001 * (double)raw_.size());
     if (!raw_.empty()) {
         uniform_int_distribution<size_t> anyByte(0, raw_.size() - 1);
         uniform_int_distribution<int> val(0, 255);
