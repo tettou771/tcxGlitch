@@ -237,17 +237,35 @@ void BmpGlitch::corrupt(vector<uint8_t>& b) {
     // BMP is uncompressed, so it always decodes — every byte is a pixel channel.
     // We mix three operators for a richer look than plain snow:
 
-    // (1) Byte drops (data loss). Delete a short run and shift the tail up; the
-    //     row alignment cascades below the cut into a diagonal tear / channel
-    //     shift — the classic "missing data" databend. Bounded, since each is an
-    //     O(n) memmove. (Byte-level = clean shift; for a harsher full scramble a
-    //     bit-level drop would shift the whole bitstream — not used here.)
+    // (1) Drops (data loss). Delete a run and shift the tail up, so the row
+    //     alignment cascades below the cut into a diagonal tear / channel shift.
+    //     Two flavours, split ~half and half:
+    //       (a) byte drop  — delete 1-6 bytes (byte-aligned, clean shift)
+    //       (b) nibble drop — delete N 4-bit units (N random 1-64). Odd N leaves
+    //           the tail shifted by half a byte, so every following byte is
+    //           rebuilt from two source nibbles — a much harsher scramble.
+    //     Bounded, since each is an O(n) shift.
     const size_t cuts = (size_t)(amount_ * 24.0);
     uniform_int_distribution<int> dropLen(1, 6);
+    uniform_int_distribution<int> nibbleN(1, 64);
     for (size_t k = 0; k < cuts; ++k) {
         size_t i = pos(rng);
-        size_t d = (size_t)dropLen(rng);
-        if (i + d < end) memmove(&b[i], &b[i + d], end - i - d);
+        if (k % 2 == 0) {
+            // (a) byte-aligned drop
+            size_t d = (size_t)dropLen(rng);
+            if (i + d < end) memmove(&b[i], &b[i + d], end - i - d);
+        } else {
+            // (b) nibble drop: shift the tail left by N nibbles (N*4 bits)
+            size_t N = (size_t)nibbleN(rng);
+            size_t t = N / 2; // whole bytes
+            if (N & 1) {
+                // half-byte shift: b[p] = low(b[p+t]) | high(b[p+t+1])
+                for (size_t p = i; p + t + 1 < end; ++p)
+                    b[p] = (uint8_t)(((b[p + t] & 0x0F) << 4) | (b[p + t + 1] >> 4));
+            } else if (t > 0 && i + t < end) {
+                memmove(&b[i], &b[i + t], end - i - t);
+            }
+        }
     }
 
     // (2)+(3) Scattered byte replaces (colour speckles) and bit flips (subtle
