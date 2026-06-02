@@ -105,9 +105,10 @@ private:
 // -----------------------------------------------------------------------------
 // BmpGlitch — uncompressed databending. Always decodes. Mixes operators:
 // byte replacement (colour speckles), bit flips (subtle channel noise), and
-// drops that delete + shift the tail (diagonal tears / channel shifts). Drops
-// come in two flavours: byte-aligned, and 4-bit "nibble" drops (N random 1-64)
-// whose odd counts misalign every following byte for a harsher scramble.
+// drops that delete + shift the tail (diagonal tears). Drops come in two
+// flavours: small byte-aligned drops (can rotate channels -> colour shift), and
+// 8-byte-unit drops (N random 1-64) that, being a multiple of the 4-byte pixel,
+// keep colours intact and only jump the position (jagged offset).
 //   amount : glitch intensity (0-1).
 // -----------------------------------------------------------------------------
 class BmpGlitch : public Glitch {
