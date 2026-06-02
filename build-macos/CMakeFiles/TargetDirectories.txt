@@ -1,8 +1,0 @@
-/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/build-macos/CMakeFiles/_tc_hot_reload_check.dir
-/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/build-macos/CMakeFiles/tcxGlitch.dir
-/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/build-macos/CMakeFiles/edit_cache.dir
-/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/build-macos/CMakeFiles/rebuild_cache.dir
-/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC.dir
-/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/TrussC_shaders.dir
-/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/edit_cache.dir
-/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/CMakeFiles/rebuild_cache.dir

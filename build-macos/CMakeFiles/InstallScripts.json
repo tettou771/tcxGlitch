@@ -1,8 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/Users/toru/Nextcloud/Make/TrussC/TrussC/addons/tcxGlitch/build-macos/cmake_install.cmake",
-		"/Users/toru/Nextcloud/Make/TrussC/TrussC/core/build-macos/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

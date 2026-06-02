@@ -16,6 +16,16 @@
 # FetchContent / vendored deps (only when a root CMakeLists.txt fetches them)
 libs/
 
+# Project files accidentally generated AT THE ADDON ROOT (e.g. running
+# `trusscli update` here instead of inside example-basic/). An addon root is not
+# a project — it just needs addon.json + src/. These are never wanted here.
+# (A deliberate custom-build CMakeLists.txt is still committable; it's not listed.)
+/addons.make
+/CMakePresets.json
+/.trussc
+/build-*/
+/bin/
+
 # IDE / editor
 .vscode/
 .vs/
