@@ -32,7 +32,7 @@ concrete codecs differ only in how they encode and how they corrupt:
 | Class | Knobs | Character |
 |-------|-------|-----------|
 | `JpegGlitch` | `setQuality(1-100)`, `setAmount(0-1)` | DCT-block smears (the classic look). `amount` is log-scaled. |
-| `BmpGlitch` | `setAmount(0-1)` | colour speckles + bit flips + byte-drop tears (channel shifts) |
+| `BmpGlitch` | `setTear`/`setShift`/`setRainbow`/`setSpeckle`/`setNoise` (each 0-1) | per-operator: hue-shift tears, colour-safe jagged shift, rainbow contour, speckles, channel noise |
 | `PngGlitch` | `setAmount(0-1)` | scanline filter-byte scramble → rows smear/bleed downward. Always decodes, but heavier (per-frame zlib). |
 
 Common to all:

@@ -40,7 +40,8 @@ private:
 
     int jpegQuality_ = 30;
     float jpegAmount_ = 0.5f;
-    float bmpAmount_ = 0.15f;
+    float bmpTear_ = 0.05f, bmpShift_ = 0.12f, bmpRainbow_ = 0.05f,
+          bmpSpeckle_ = 0.04f, bmpNoise_ = 0.04f;
     float pngAmount_ = 0.6f;
 
     bool randomSeed_ = true;

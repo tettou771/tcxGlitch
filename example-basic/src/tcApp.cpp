@@ -52,7 +52,11 @@ void tcApp::draw() {
         ImGui::SliderInt("Quality", &jpegQuality_, 1, 100);
         ImGui::SliderFloat("Amount", &jpegAmount_, 0.0f, 1.0f, "%.2f");
     } else if (codecIndex_ == 1) {
-        ImGui::SliderFloat("Amount", &bmpAmount_, 0.0f, 1.0f, "%.2f");
+        ImGui::SliderFloat("Tear", &bmpTear_, 0.0f, 1.0f, "%.2f");
+        ImGui::SliderFloat("Shift", &bmpShift_, 0.0f, 1.0f, "%.2f");
+        ImGui::SliderFloat("Rainbow", &bmpRainbow_, 0.0f, 1.0f, "%.2f");
+        ImGui::SliderFloat("Speckle", &bmpSpeckle_, 0.0f, 1.0f, "%.2f");
+        ImGui::SliderFloat("Noise", &bmpNoise_, 0.0f, 1.0f, "%.2f");
     } else {
         ImGui::SliderFloat("Amount", &pngAmount_, 0.0f, 1.0f, "%.2f");
     }
@@ -151,7 +155,8 @@ Glitch* tcApp::currentGlitch() {
             jpeg_.setQuality(jpegQuality_).setAmount(jpegAmount_);
             return &jpeg_;
         case 1:
-            bmp_.setAmount(bmpAmount_);
+            bmp_.setTear(bmpTear_).setShift(bmpShift_).setRainbow(bmpRainbow_)
+                .setSpeckle(bmpSpeckle_).setNoise(bmpNoise_);
             return &bmp_;
         default:
             png_.setAmount(pngAmount_);
