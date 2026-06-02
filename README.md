@@ -47,7 +47,20 @@ Common to all:
 
 ### Roll your own
 
-Subclass `Glitch` and implement `encode()` + `corrupt()`. The base handles input
+One class per file under `src/`:
+
+```
+src/
+├── tcxGlitch.h     # public umbrella (just #includes the rest)
+├── Glitch.{h,cpp}  # abstract base + the databend pipeline + how-to-extend guide
+├── JpegGlitch.{h,cpp}
+├── BmpGlitch.{h,cpp}
+└── PngGlitch.{h,cpp}
+```
+
+To add a codec: copy a codec's `.h`/`.cpp` pair (JpegGlitch is the simplest),
+subclass `Glitch`, implement `encode()` + `corrupt()`, add any setters you need,
+then `#include` your header from `tcxGlitch.h`. The base handles input
 conversion, decoding, the black fallback, and the return value — you only decide
 how bytes are produced and how they get broken.
 
