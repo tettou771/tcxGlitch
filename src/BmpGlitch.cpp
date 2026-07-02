@@ -6,7 +6,7 @@
 using namespace std;
 using namespace tc;
 
-namespace tcx {
+namespace tcx::glitch {
 
 namespace {
 // Read a 32-bit little-endian value (BMP headers).
@@ -93,4 +93,4 @@ void BmpGlitch::corrupt(vector<uint8_t>& b) {
     }
 }
 
-} // namespace tcx
+} // namespace tcx::glitch

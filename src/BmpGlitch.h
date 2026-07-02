@@ -2,7 +2,7 @@
 
 #include "Glitch.h"
 
-namespace tcx {
+namespace tcx::glitch {
 
 // -----------------------------------------------------------------------------
 // BmpGlitch — uncompressed databending. Always decodes. BMP is 32-bit (4 bytes
@@ -43,4 +43,14 @@ private:
     float noise_ = 0.04f;
 };
 
-} // namespace tcx
+} // namespace tcx::glitch
+
+// -----------------------------------------------------------------------------
+// Backward compatibility. The canonical namespace is now `tcx::glitch`. These
+// silent aliases keep older code compiling: flat `tcx::BmpGlitch` and legacy
+// `trussc::BmpGlitch`. DEPRECATED — removed in v1.0.0.
+// (No [[deprecated]] attribute: under the usual `using namespace tc;` it would
+//  warn on idiomatic unqualified use too. See tcxGlitch README for migration.)
+// -----------------------------------------------------------------------------
+namespace tcx    { using glitch::BmpGlitch; } // deprecated: remove at v1.0.0
+namespace trussc { using tcx::glitch::BmpGlitch; } // deprecated: remove at v1.0.0

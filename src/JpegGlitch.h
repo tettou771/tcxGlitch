@@ -2,7 +2,7 @@
 
 #include "Glitch.h"
 
-namespace tcx {
+namespace tcx::glitch {
 
 // -----------------------------------------------------------------------------
 // JpegGlitch — classic DCT-block databending. The signature blocky smears.
@@ -28,4 +28,14 @@ private:
     float amount_ = 0.5f;
 };
 
-} // namespace tcx
+} // namespace tcx::glitch
+
+// -----------------------------------------------------------------------------
+// Backward compatibility. The canonical namespace is now `tcx::glitch`. These
+// silent aliases keep older code compiling: flat `tcx::JpegGlitch` and legacy
+// `trussc::JpegGlitch`. DEPRECATED — removed in v1.0.0.
+// (No [[deprecated]] attribute: under the usual `using namespace tc;` it would
+//  warn on idiomatic unqualified use too. See tcxGlitch README for migration.)
+// -----------------------------------------------------------------------------
+namespace tcx    { using glitch::JpegGlitch; } // deprecated: remove at v1.0.0
+namespace trussc { using tcx::glitch::JpegGlitch; } // deprecated: remove at v1.0.0

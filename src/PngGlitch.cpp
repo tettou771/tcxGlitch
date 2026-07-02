@@ -11,7 +11,7 @@ extern "C" unsigned char* stbi_zlib_compress(unsigned char* data, int data_len,
 using namespace std;
 using namespace tc;
 
-namespace tcx {
+namespace tcx::glitch {
 
 namespace {
 // CRC-32 (PNG / zlib polynomial) over a byte range.
@@ -146,4 +146,4 @@ void PngGlitch::corrupt(vector<uint8_t>& b) {
     b.swap(out);
 }
 
-} // namespace tcx
+} // namespace tcx::glitch

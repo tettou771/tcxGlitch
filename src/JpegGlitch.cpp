@@ -6,7 +6,7 @@
 using namespace std;
 using namespace tc;
 
-namespace tcx {
+namespace tcx::glitch {
 
 bool JpegGlitch::encode(const Pixels& src, vector<uint8_t>& bytes) {
     bytes.clear();
@@ -60,4 +60,4 @@ void JpegGlitch::corrupt(vector<uint8_t>& b) {
     }
 }
 
-} // namespace tcx
+} // namespace tcx::glitch

@@ -2,7 +2,7 @@
 
 #include "Glitch.h"
 
-namespace tcx {
+namespace tcx::glitch {
 
 // -----------------------------------------------------------------------------
 // PngGlitch — filter-byte databending. PNG stores each row with a "filter type"
@@ -33,4 +33,14 @@ private:
     int width_ = 0, height_ = 0, channels_ = 0;
 };
 
-} // namespace tcx
+} // namespace tcx::glitch
+
+// -----------------------------------------------------------------------------
+// Backward compatibility. The canonical namespace is now `tcx::glitch`. These
+// silent aliases keep older code compiling: flat `tcx::PngGlitch` and legacy
+// `trussc::PngGlitch`. DEPRECATED — removed in v1.0.0.
+// (No [[deprecated]] attribute: under the usual `using namespace tc;` it would
+//  warn on idiomatic unqualified use too. See tcxGlitch README for migration.)
+// -----------------------------------------------------------------------------
+namespace tcx    { using glitch::PngGlitch; } // deprecated: remove at v1.0.0
+namespace trussc { using tcx::glitch::PngGlitch; } // deprecated: remove at v1.0.0

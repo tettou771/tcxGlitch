@@ -3,7 +3,7 @@
 using namespace std;
 using namespace tc;
 
-namespace tcx {
+namespace tcx::glitch {
 
 namespace {
 
@@ -100,4 +100,4 @@ bool Glitch::apply(Image& img) {
     return process(img.getPixels(), img);
 }
 
-} // namespace tcx
+} // namespace tcx::glitch

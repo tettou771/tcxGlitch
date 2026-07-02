@@ -41,7 +41,7 @@
 #include <cstdint>
 #include <vector>
 
-namespace tcx {
+namespace tcx::glitch {
 
 namespace detail {
 // stb_image_write `*_to_func` callback: append the produced bytes to a
@@ -95,4 +95,14 @@ private:
     tc::Fbo scratchFbo_;
 };
 
-} // namespace tcx
+} // namespace tcx::glitch
+
+// -----------------------------------------------------------------------------
+// Backward compatibility. The canonical namespace is now `tcx::glitch`. These
+// silent aliases keep older code compiling: flat `tcx::Glitch` and legacy
+// `trussc::Glitch`. DEPRECATED — removed in v1.0.0.
+// (No [[deprecated]] attribute: under the usual `using namespace tc;` it would
+//  warn on idiomatic unqualified use too. See tcxGlitch README for migration.)
+// -----------------------------------------------------------------------------
+namespace tcx    { using glitch::Glitch; } // deprecated: remove at v1.0.0
+namespace trussc { using tcx::glitch::Glitch; } // deprecated: remove at v1.0.0
