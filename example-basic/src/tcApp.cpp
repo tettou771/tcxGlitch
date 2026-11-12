@@ -13,9 +13,8 @@ void tcApp::setup() {
     }
 
     imguiSetup();
-    // Lets AI agents inspect/drive the GUI over MCP (TRUSSC_MCP=1). No-op
-    // during a normal run.
-    mcp::registerDebuggerTools();
+    // AI agents can inspect/drive the GUI over MCP in a dev build
+    // (`trusscli run --mcp` grants Control). A normal run stays inert.
 }
 
 void tcApp::draw() {
